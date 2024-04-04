@@ -1,6 +1,7 @@
+# Parametric multiboard stacks
+
 Refer for more info:
 https://www.multiboard.io/
-
 
 Or at thangs.com
 https://thangs.com/designer/Keep%20Making/3d-model/8x8%20Multiboard%20Core%20Tile-974214
@@ -19,3 +20,30 @@ multiboard_side(3, 2);
 ```
 
 If you use it, you'll please me if you let me know.
+
+Additions by Randy Hall:
+
+```
+// For a 3x3 panel set...
+// Set grid type to one of the below
+// 
+//   For flat sides: (nine unique panels)
+//     "top left"    "top"    "top right"
+//     "left"        "core"   "right"
+//     "bottom left" "bottom" "bottom right"
+// 
+//   For classic sides: 
+//     (three unique panels)
+//     (four unique panels if width and height differ)
+//     "side"  "side"  "corner"
+//     "core"  "core"  "side"
+//     "core"  "core"  "side"
+//
+//   For a horizontal config
+//      "left end" "horizontal" "right end"
+//
+//   For a vertical config
+//       "top end"
+//       "vert"
+//       "bottom end"
+```

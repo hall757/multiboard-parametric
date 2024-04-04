@@ -23,6 +23,8 @@ If you use it, you'll please me if you let me know.
 
 Additions by Randy Hall:
 
+![examples](/Users/randy/Documents/src/multiboard-parametric/examples.png)
+
 ```
 // For a 3x3 panel set...
 // Set grid type to one of the below

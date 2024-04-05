@@ -1,9 +1,7 @@
-grid_type  ="single";
-grid_width =3;
+grid_type  ="test"; // setting to test ignores width,height and stack
+grid_width =2;
 grid_height=3;
-stack      =3; // now many for stacked printing
-
-
+stack      =1; // now many for stacked printing
 
 // eps = 0.01;
 
@@ -367,25 +365,25 @@ module trapz_thread(d1, d2, h1, h2, thread_len, pitch) {
 }
 
 // classic shapes
-module classic_corner(){
+module classic_corner(x,y){
     multiboard_corner(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module classic_side(){ 
+module classic_side(x,y){ 
  multiboard_side(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }    
-module classic_side2(){ 
+module classic_side2(x,y){ 
  translate([grid_width*cell_size,0,0])
    rotate([0,0,90])
      multiboard_side(
@@ -393,39 +391,39 @@ module classic_side2(){
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_height, // swap xy due to rotation
-      y_cells = grid_width); 
+      x_cells = y,
+      y_cells = x);
   }    
-module classic_core(){
+module classic_core(x,y){
  multiboard_core(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
 
 // new shapes with flat sides
-module flat_single(){
+module flat_single(x,y){
     multiboard_corner(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =0, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_bottom_left(){    
+module flat_bottom_left(x,y){    
   multiboard_core(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_bottom_right(){
+module flat_bottom_right(x,y){
   translate([grid_width*cell_size,0,0])
     rotate([0,0,90])
       multiboard_side(
@@ -433,74 +431,73 @@ module flat_bottom_right(){
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1,  // zero for flat, 1 for normal
-      x_cells = grid_height, // swap xy due to rotation
-      y_cells = grid_width);
+      x_cells = y,
+      y_cells = x);
   }
-module flat_top_right(){
+module flat_top_right(x,y){
    multiboard_corner(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =0, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
 }
-module flat_right_end(){
-
+module flat_right_end(x,y){
    multiboard_corner(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =0, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
 }
-module flat_left_end(){
+module flat_left_end(x,y){
  multiboard_side(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_bottom(){
+module flat_bottom(x,y){
   multiboard_core(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_horizontal(){
+module flat_horizontal(x,y){
   multiboard_side(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_left(){
+module flat_left(x,y){
   multiboard_core(
       classic_top   =1, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_top(){
+module flat_top(x,y){
   multiboard_side(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_right(){
+module flat_right(x,y){
   translate([grid_width*cell_size,0,0])
     rotate([0,0,90])
       multiboard_side(
@@ -508,30 +505,29 @@ module flat_right(){
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_height, // swap xy due to rotation
-      y_cells = grid_width);
+      x_cells = y,
+      y_cells = x);
   }
-module flat_top_left(){
+module flat_top_left(x,y){
   multiboard_side(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
 
-module flat_top_end(){
-
+module flat_top_end(x,y){
     multiboard_corner(
       classic_top   =0, // zero for flat, 1 for normal
       classic_bottom=1, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =0, // zero for flat, 1 for normal
-      x_cells = grid_width,
-      y_cells = grid_height);
+      x_cells = x,
+      y_cells = y);
   }
-module flat_vert(){
+module flat_vert(x,y){
   translate([grid_width*cell_size,0,0])
     rotate([0,0,90])
     multiboard_side(
@@ -539,10 +535,10 @@ module flat_vert(){
       classic_bottom=0,// zero for flat, 1 for normal
       classic_left  =1, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_height,
-      y_cells = grid_width);
+      x_cells = y,
+      y_cells = x);
   }
-module flat_bottom_end(){
+module flat_bottom_end(x,y){
   translate([grid_width*cell_size,0,0])
     rotate([0,0,90])
     multiboard_side(
@@ -550,66 +546,72 @@ module flat_bottom_end(){
       classic_bottom=0, // zero for flat, 1 for normal
       classic_left  =0, // zero for flat, 1 for normal
       classic_right =1, // zero for flat, 1 for normal
-      x_cells = grid_height,
-      y_cells = grid_width);
+      x_cells = y,
+      y_cells = x);
   }
 
-  // wrapper to add flat sides around classic panels
-
-  
-if (grid_type == "test"      ) { // classic
-    separation=5;
+if (grid_type == "test"      ) {
+    // generate examples of all tiles
+    separation=5; testw=2; testh=3;
     x_offset=cell_size*grid_width +separation;
     y_offset=cell_size*grid_height+separation;
-    color("red")translate([-x_offset*4,y_offset*2,0])flat_top_end();
-    color("red")translate([-x_offset*4,y_offset*1,0])flat_vert();
-    color("red")translate([-x_offset*4,y_offset*0,0])flat_bottom_end();
+
+    // vertical flat sided tiles
+    color("red")translate([-x_offset*4,y_offset*2,0])flat_top_end(   testw,testh);
+    color("red")translate([-x_offset*4,y_offset*1,0])flat_vert(      testw,testh);
+    color("red")translate([-x_offset*4,y_offset*0,0])flat_bottom_end(testw,testh);
   
-    translate([-x_offset*3,y_offset*1,0])classic_core();
-    translate([-x_offset*3,y_offset*2,0])classic_side();
-    translate([-x_offset*2,y_offset*2,0])classic_corner();
-    translate([-x_offset*2,y_offset*1,0])classic_side2();
+    // classic tiles
+    color("grey")translate([-x_offset*3,y_offset*1,0])classic_core(  testw,testh);
+    color("grey")translate([-x_offset*3,y_offset*2,0])classic_side(  testw,testh);
+    color("grey")translate([-x_offset*2,y_offset*2,0])classic_corner(testw,testh);
+    color("grey")translate([-x_offset*2,y_offset*1,0])classic_side2( testw,testh);
     
-    color("orange")translate([-x_offset*1,y_offset*2,0])flat_single();
+    // single tile
+    color("orange")translate([-x_offset*1,y_offset*1+separation,0])flat_single(testw,testh*2);
     
-    color("blue")translate([-x_offset*3,y_offset*0,0])flat_left_end();
-    color("blue")translate([-x_offset*2,y_offset*0,0])flat_horizontal();
-    color("blue")translate([-x_offset*1,y_offset*0,0])flat_right_end();
+    // horizontal flat sided tiles
+    color("blue")translate([-x_offset*3,y_offset*0,0])flat_left_end(  testw,testh);
+    color("blue")translate([-x_offset*2,y_offset*0,0])flat_horizontal(testw,testh);
+    color("blue")translate([-x_offset*1,y_offset*0,0])flat_right_end( testw,testh);
 
-    color("green")translate([x_offset*0,y_offset*0,0])flat_bottom_left();
-    color("green")translate([x_offset*1,y_offset*0,0])flat_bottom();
-    color("green")translate([x_offset*2,y_offset*0,0])flat_bottom_right();
+    // flat sided tiles
+    color("green")translate([x_offset*0,y_offset*0,0])flat_bottom_left( testw,testh);
+    color("green")translate([x_offset*1,y_offset*0,0])flat_bottom(      testw,testh);
+    color("green")translate([x_offset*2,y_offset*0,0])flat_bottom_right(testw,testh);
 
-    color("green")translate([x_offset*0,y_offset*1,0])flat_left();
-    color("green")translate([x_offset*1,y_offset*1,0])classic_core();
-    color("green")translate([x_offset*2,y_offset*1,0])flat_right();
+    color("green")translate([x_offset*0,y_offset*1,0])flat_left(   testw,testh);
+    color("green")translate([x_offset*1,y_offset*1,0])classic_core(testw,testh);
+    color("green")translate([x_offset*2,y_offset*1,0])flat_right(  testw,testh);
  
-    color("green")translate([x_offset*0,y_offset*2,0])flat_top_left();
-    color("green")translate([x_offset*1,y_offset*2,0])flat_top();
-    color("green")translate([x_offset*2,y_offset*2,0])flat_top_right();
+    color("green")translate([x_offset*0,y_offset*2,0])flat_top_left( testw,testh);
+    color("green")translate([x_offset*1,y_offset*2,0])flat_top(      testw,testh);
+    color("green")translate([x_offset*2,y_offset*2,0])flat_top_right(testw,testh);
+
 } else {
+
+  // generate and stack tiles with specified width and height
 
   for(s=[0: stack-1]){
     translate([0,0,s*(height+layer_height)]){
-      if (grid_type=="core"        ){ classic_core();      }
-      if (grid_type=="side"        ){ classic_side();      }
-      if (grid_type=="corner"      ){ classic_corner();    }
-      if (grid_type=="single"      ){ flat_single();    }
-      if (grid_type=="top left"    ){ flat_top_left();     }
-      if (grid_type=="top"         ){ flat_top();          }
-      if (grid_type=="top right"   ){ flat_top_right();    }
-      if (grid_type=="left"        ){ flat_left();         }
-      if (grid_type=="right"       ){ flat_right();        }
-      if (grid_type=="bottom left" ){ flat_bottom_left();  }
-      if (grid_type=="bottom"      ){ flat_bottom();       }
-      if (grid_type=="bottom right"){ flat_bottom_right(); }
-      if (grid_type=="right end"   ){ flat_right_end();    }
-      if (grid_type=="left end"    ){ flat_left_end();     }
-      if (grid_type=="horizontal"  ){ flat_horizontal();   }
-      if (grid_type=="top end"     ){ flat_top_end();      }
-      if (grid_type=="bottom end"  ){ flat_bottom_end();   }
-      if (grid_type=="vert"        ){ flat_vert();         }
-      
+      if (grid_type=="core"        ){ classic_core(     grid_width,grid_height); }
+      if (grid_type=="side"        ){ classic_side(     grid_width,grid_height); }
+      if (grid_type=="corner"      ){ classic_corner(   grid_width,grid_height); }
+      if (grid_type=="single"      ){ flat_single(      grid_width,grid_height); }
+      if (grid_type=="top left"    ){ flat_top_left(    grid_width,grid_height); }
+      if (grid_type=="top"         ){ flat_top(         grid_width,grid_height); }
+      if (grid_type=="top right"   ){ flat_top_right(   grid_width,grid_height); }
+      if (grid_type=="left"        ){ flat_left(        grid_width,grid_height); }
+      if (grid_type=="right"       ){ flat_right(       grid_width,grid_height); }
+      if (grid_type=="bottom left" ){ flat_bottom_left( grid_width,grid_height); }
+      if (grid_type=="bottom"      ){ flat_bottom(      grid_width,grid_height); }
+      if (grid_type=="bottom right"){ flat_bottom_right(grid_width,grid_height); }
+      if (grid_type=="right end"   ){ flat_right_end(   grid_width,grid_height); }
+      if (grid_type=="left end"    ){ flat_left_end(    grid_width,grid_height); }
+      if (grid_type=="horizontal"  ){ flat_horizontal(  grid_width,grid_height); }
+      if (grid_type=="top end"     ){ flat_top_end(     grid_width,grid_height); }
+      if (grid_type=="bottom end"  ){ flat_bottom_end(  grid_width,grid_height); }
+      if (grid_type=="vert"        ){ flat_vert(        grid_width,grid_height); }
     }
   }
 }

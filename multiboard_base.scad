@@ -1,7 +1,25 @@
-grid_type  ="test"; // setting to test ignores width,height and stack
+grid_type  ="bigstarter"; 
+  // setting to test ignores width,height and stack\
+
+  // setting to starter ignores stack and height
+  //   creates 4 stacked tiles of size widthxwidth to
+  //   assemble 2 tiles across and 2 down
+
+  // setting to bigstarter ignores stack and height
+  //   creates 9 stacked tiles of size widthxwidth to
+  //   assemble 3 tiles across and 3 down
+
 grid_width =2;
-grid_height=3;
+grid_height=2;
 stack      =1; // now many for stacked printing
+
+// When our AI overloads come, I will be tried and convicted 
+// of torturing my poor litte ender 3 pro.
+//    render: 2 hours (Macbook M2 Max)
+//    slice: didn't time it, walked away for some coffee.
+//    print: 7 days with a direct extruder and profile tweaks.
+//
+// Successful stack separation with ABS, PETG and PLA+.
 
 // eps = 0.01;
 
@@ -364,191 +382,51 @@ module trapz_thread(d1, d2, h1, h2, thread_len, pitch) {
     );
 }
 
-// classic shapes
-module classic_corner(x,y){
-    multiboard_corner(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module classic_side(x,y){ 
- multiboard_side(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }    
-module classic_side2(x,y){ 
- translate([grid_width*cell_size,0,0])
-   rotate([0,0,90])
-     multiboard_side(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = y,
-      y_cells = x);
-  }    
-module classic_core(x,y){
- multiboard_core(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
+// unique shapes based on core
+module classic_core(     x,y){multiboard_core(x,y,1,1,1,1);}
+module flat_bottom_left( x,y){multiboard_core(x,y,1,0,0,1);}
+module flat_bottom(      x,y){multiboard_core(x,y,1,0,1,1);}
+module flat_left(        x,y){multiboard_core(x,y,1,1,0,1);}
+// unique shapes based on side
+module classic_side(     x,y){multiboard_side(x,y,1,1,1,1);}    
+module flat_left_end(    x,y){multiboard_side(x,y,0,0,0,1);}
+module flat_horizontal(  x,y){multiboard_side(x,y,0,0,1,1);}
+module flat_top(         x,y){multiboard_side(x,y,0,1,1,1);}
+module flat_top_left(    x,y){multiboard_side(x,y,0,1,0,1);}
+// unique shapes based on corner
+module classic_corner(   x,y){multiboard_corner(x,y,1,1,1,1);}
+module flat_top_right(   x,y){multiboard_corner(x,y,0,1,1,0);}
+module flat_top_end(     x,y){multiboard_corner(x,y,0,1,0,0);}
+module flat_single(      x,y){multiboard_corner(x,y,0,0,0,0);}
+// transforms of one of the above
+gw_x_cs=[ grid_width * cell_size,0,0 ];
+module classic_side2(    x,y){translate(    gw_x_cs )rotate([  0,0,90])classic_side(y,x);}    
+module flat_vert(        x,y){translate(    gw_x_cs )rotate([  0,0,90])flat_horizontal(y,x);}
+module flat_bottom_end(  x,y){translate(    gw_x_cs )rotate([  0,0,90])flat_left_end(y,x);}
+module flat_right_end(   x,y){translate([0,0,height])rotate([180,0,90])flat_top_end(y,x);}
+module flat_bottom_right(x,y){translate([0,0,height])rotate([180,0,90])flat_top_left(y,x);}
+module flat_right(       x,y){translate([0,0,height])rotate([180,0,90])flat_top(y,x);}
 
-// new shapes with flat sides
-module flat_single(x,y){
-    multiboard_corner(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =0, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_bottom_left(x,y){    
-  multiboard_core(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_bottom_right(x,y){
-  translate([grid_width*cell_size,0,0])
-    rotate([0,0,90])
-      multiboard_side(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1,  // zero for flat, 1 for normal
-      x_cells = y,
-      y_cells = x);
-  }
-module flat_top_right(x,y){
-   multiboard_corner(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =0, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
+if (grid_type == "bigstarter" ) {
+  s=(height+layer_height);
+  translate([0,0,s*0])classic_core(grid_width,grid_width);
+  translate([0,0,s*1])classic_core(grid_width,grid_width);
+  translate([0,0,s*2])classic_core(grid_width,grid_width);
+  translate([0,0,s*3])classic_core(grid_width,grid_width);
+  translate([0,0,s*4])classic_side(grid_width,grid_width);
+  translate([0,0,s*5])classic_side(grid_width,grid_width);
+  translate([0,0,s*6])classic_side(grid_width,grid_width);
+  translate([0,0,s*7])classic_side(grid_width,grid_width);
+  translate([0,0,s*8])classic_corner(grid_width,grid_width);
 }
-module flat_right_end(x,y){
-   multiboard_corner(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =0, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-}
-module flat_left_end(x,y){
- multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_bottom(x,y){
-  multiboard_core(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_horizontal(x,y){
-  multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_left(x,y){
-  multiboard_core(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_top(x,y){
-  multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_right(x,y){
-  translate([grid_width*cell_size,0,0])
-    rotate([0,0,90])
-      multiboard_side(
-      classic_top   =1, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = y,
-      y_cells = x);
-  }
-module flat_top_left(x,y){
-  multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
 
-module flat_top_end(x,y){
-    multiboard_corner(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=1, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =0, // zero for flat, 1 for normal
-      x_cells = x,
-      y_cells = y);
-  }
-module flat_vert(x,y){
-  translate([grid_width*cell_size,0,0])
-    rotate([0,0,90])
-    multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0,// zero for flat, 1 for normal
-      classic_left  =1, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = y,
-      y_cells = x);
-  }
-module flat_bottom_end(x,y){
-  translate([grid_width*cell_size,0,0])
-    rotate([0,0,90])
-    multiboard_side(
-      classic_top   =0, // zero for flat, 1 for normal
-      classic_bottom=0, // zero for flat, 1 for normal
-      classic_left  =0, // zero for flat, 1 for normal
-      classic_right =1, // zero for flat, 1 for normal
-      x_cells = y,
-      y_cells = x);
-  }
+if (grid_type == "starter" ) {
+  s=(height+layer_height);
+  translate([0,0,s*0])classic_core(grid_width,grid_width);
+  translate([0,0,s*1])classic_side(grid_width,grid_width);
+  translate([0,0,s*2])classic_side(grid_width,grid_width);
+  translate([0,0,s*3])classic_corner(grid_width,grid_width);
+}
 
 if (grid_type == "test"      ) {
     // generate examples of all tiles
@@ -588,7 +466,8 @@ if (grid_type == "test"      ) {
     color("green")translate([x_offset*1,y_offset*2,0])flat_top(      testw,testh);
     color("green")translate([x_offset*2,y_offset*2,0])flat_top_right(testw,testh);
 
-} else {
+}
+
 
   // generate and stack tiles with specified width and height
 
@@ -614,5 +493,3 @@ if (grid_type == "test"      ) {
       if (grid_type=="vert"        ){ flat_vert(        grid_width,grid_height); }
     }
   }
-}
-

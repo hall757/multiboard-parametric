@@ -1,5 +1,5 @@
 .*~
 *~
-multiboard_base.orig.scad
+*.orig.scad
 *.swp
-4x4_starter_pack.stl
+*.stl
